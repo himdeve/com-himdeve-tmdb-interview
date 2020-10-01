@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Himdeve TMDb</string>
+    <string name="author_page">Himdeve development</string>
+    <string name="author_info">Developed by Himdeve development (www.himdeve.com)</string>
+
+    <!-- Connectivity -->
+    <string name="connectivity_no_internet_connection_error">No Internet Connection</string>
+
+    <!-- Settings -->
+    <string name="action_settings">Settings</string>
+    <string name="action_settings_click">Not yet implemented...</string>
+    <string name="settings_last_days_title">In last ... days</string>
+    <string name="settings_last_days_desc">You can query movies for up to 14 days worth of changed IDs at a time</string>
+    <string name="settings_last_days_no_restriction">No restriction</string>
+    <string name="settings_last_days_suffix_day">day back</string>
+    <string name="settings_last_days_suffix_days">days back</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <!-- It will be used app_name instead -->
+    <string name="movie_list_fragment_label">Movie list</string>
+    <string name="movie_detail_fragment_label">Movie detail</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <!-- Drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Himdeve</string>
+    <string name="nav_header_subtitle">www.himdeve.com</string>
+    <string name="nav_header_desc">Himdeve development logo</string>
+
+    <!-- Movie -->
+    <string name="movie_cover_content_desc">Movie cover</string>
+    <string name="movie_detail_cover_image">Movie detail cover image</string>
+    <string name="movie_detail_language">Language:</string>
+    <string name="movie_detail_genre">Genre:</string>
+    <string name="movie_detail_release_date">Release date:</string>
+    <string name="movie_no_items">No items</string>
+</resources>

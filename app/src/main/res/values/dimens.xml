@@ -1,0 +1,26 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Card margins -->
+    <dimen name="card_side_margin">5dp</dimen>
+    <dimen name="card_bottom_margin">10dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
+
+    <!-- Movie List Header margin -->
+    <dimen name="header_margin">24dp</dimen>
+
+    <!-- Movie -->
+    <dimen name="movie_cover_image_width">120dp</dimen>
+    <dimen name="movie_cover_image_height">180dp</dimen>
+
+    <!-- For Mobile Phones -->
+    <bool name="isTablet">false</bool>
+    <dimen name="grid_column_width">120dp</dimen>
+    <dimen name="cover_big_image_min_size">180dp</dimen>
+</resources>

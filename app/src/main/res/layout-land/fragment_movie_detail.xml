@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.movies.fragments.MovieDetailFragment">
+
+    <data>
+
+        <import type="com.himdeve.tmdb.interview.domain.util.Constants" />
+
+        <variable
+            name="movie"
+            type="com.himdeve.tmdb.interview.domain.movies.model.Movie" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/movie_detail_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie_detail_cover_image"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitXY"
+            app:baseUrl="@{Constants.COVER_BIG_BASE_URL}"
+            app:imageUrl="@{movie.cover}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_min="@dimen/cover_big_image_min_size" />
+
+        <include
+            android:id="@+id/included_content_movie_detail"
+            layout="@layout/content_movie_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/movie_detail_cover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:movie="@{movie}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
