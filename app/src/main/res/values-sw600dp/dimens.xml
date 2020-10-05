@@ -2,6 +2,7 @@
 <resources>
     <!-- For Tablets -->
     <bool name="isTablet">true</bool>
-    <dimen name="grid_column_width">180dp</dimen>
+    <dimen name="grid_column_x">190dp</dimen>
+    <dimen name="grid_column_y">280dp</dimen>
     <dimen name="cover_big_image_min_size">250dp</dimen>
 </resources>

@@ -8,6 +8,8 @@
 
         <import type="com.himdeve.tmdb.interview.domain.util.Constants" />
 
+        <import type="com.himdeve.tmdb.interview.R" />
+
         <variable
             name="movie"
             type="com.himdeve.tmdb.interview.domain.movies.model.Movie" />
@@ -46,6 +48,7 @@
                         android:fitsSystemWindows="true"
                         android:scaleType="fitXY"
                         app:baseUrl="@{Constants.COVER_BIG_BASE_URL}"
+                        app:brokenImageRes="@{R.drawable.ic_broken_image_portrait}"
                         app:imageUrl="@{movie.cover}"
                         app:layout_collapseMode="parallax"
                         app:layout_constraintEnd_toEndOf="parent"

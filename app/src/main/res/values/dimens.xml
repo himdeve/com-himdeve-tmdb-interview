@@ -13,14 +13,12 @@
     <dimen name="card_corner_radius">12dp</dimen>
 
     <!-- Movie List Header margin -->
-    <dimen name="header_margin">24dp</dimen>
-
-    <!-- Movie -->
-    <dimen name="movie_cover_image_width">120dp</dimen>
-    <dimen name="movie_cover_image_height">180dp</dimen>
+    <dimen name="header_margin">8dp</dimen>
+    <dimen name="footer_margin">4dp</dimen>
 
     <!-- For Mobile Phones -->
     <bool name="isTablet">false</bool>
-    <dimen name="grid_column_width">120dp</dimen>
+    <dimen name="grid_column_x">120dp</dimen>
+    <dimen name="grid_column_y">180dp</dimen>
     <dimen name="cover_big_image_min_size">180dp</dimen>
 </resources>

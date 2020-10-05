@@ -48,6 +48,15 @@ class GridAutoFitLayoutManager : GridLayoutManager {
         init(context)
     }
 
+    // span count will be ignored here
+    constructor(
+        context: Context?,
+        orientation: Int,
+        columnWidthInDp: Int
+    ) : super(context, 1, orientation, false) {
+        updateColumnWidth(columnWidthInDp)
+    }
+
     private fun init(context: Context?) {
         setColumnWidth(context)
     }
@@ -77,11 +86,15 @@ class GridAutoFitLayoutManager : GridLayoutManager {
 
     private fun setColumnWidth(context: Context?) {
         val newColumnWidthInPx =
-            context?.resources?.getDimension(R.dimen.grid_column_width)?.toInt()
+            context?.resources?.getDimension(R.dimen.grid_column_x)?.toInt()
                 ?: ASSUMED_COLUMN_WIDTH_IN_DP
 
-        if (newColumnWidthInPx > 0 && newColumnWidthInPx != mColumnWidth) {
-            mColumnWidth = newColumnWidthInPx
+        updateColumnWidth(newColumnWidthInPx)
+    }
+
+    private fun updateColumnWidth(widthInDp: Int) {
+        if (widthInDp > 0 && widthInDp != mColumnWidth) {
+            mColumnWidth = widthInDp
             mColumnWidthChanged = true
         }
     }

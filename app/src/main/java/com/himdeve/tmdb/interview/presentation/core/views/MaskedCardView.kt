@@ -12,8 +12,9 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapeAppearancePathProvider
 
 /**
- * Created by Himdeve on 9/28/2020.
+ * TAKEN FROM SUNFLOWER GOOGLE SAMPLE
  */
+
 /**
  * A Card view that clips the content of any shape, this should be done upstream in card,
  * working around it for now.
