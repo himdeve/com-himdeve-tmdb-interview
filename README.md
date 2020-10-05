@@ -18,9 +18,9 @@ Adding the Paging 3 library
   (Actually now there is a problem with TMDb API for GET /movie/changes. Paging is currently not working)
 
 ## Build
-1. In the Android Project create keystore.properties file to set your release information
-2. In the Android Project create tmdb.properties file to set API KEY to TMDb API
-  - this file should look like this:
+1. In the Android Project update keystore.properties file to set your release information
+2. In the Android Project update tmdb.properties file to set API KEY to TMDb API
+  - this file looks like this:
   tmdb_api_key=<YOUR_TMDB_API_KEY>  
   - for API KEY you need to register here: https://www.themoviedb.org/signup
   
