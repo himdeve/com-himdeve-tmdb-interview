@@ -13,6 +13,7 @@ import com.himdeve.tmdb.interview.infrastructure.movies.network.IMovieNetworkDat
 import com.himdeve.tmdb.interview.infrastructure.movies.network.mappers.MovieNetworkMapper
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
+import java.io.InvalidObjectException
 import java.util.*
 
 /**
@@ -24,7 +25,7 @@ class MovieRepository(
     private val cacheMapper: EntityMapper<MovieCacheEntity, Movie>,
     private val networkMapper: MovieNetworkMapper
 ) : BaseRepository(), IMovieRepository {
-    override suspend fun getMovies(
+    override fun getMovies(
         apiKey: String,
         startDate: Calendar?,
         endDate: Calendar?,
@@ -80,46 +81,47 @@ class MovieRepository(
             page
         )
 
+        var movies = emptyList<Movie>()
+
         // return error
-        if (movieChangesEntityRes.status == DataState.Status.ERROR) {
-            return DataState.error(movieChangesEntityRes.message.orEmpty())
-        }
+        if (movieChangesEntityRes is DataState.Error) {
+            return DataState.Error(movieChangesEntityRes.message)
+        } else if (movieChangesEntityRes is DataState.Success) {
 
-        // TODO: Temporary! TMDb paging not working for changes movies. Then use paging mechanism.
-        val temp = movieChangesEntityRes.data?.movieNetworkEntityList?.subList(0, pageSize)
+            // TODO: Temporary! TMDb paging not working for changes movies. Then use paging mechanism.
+            val temp = movieChangesEntityRes.data.movieNetworkEntityList.subList(0, pageSize)
 
-        val movies = temp
-            // filter adult movies out
-            ?.filter { movieNetworkEntity ->
-                movieNetworkEntity.adult != null && !movieNetworkEntity.adult
-            }
-            // fetch movie details and map it to the domain model; Remove nulls
-            ?.mapNotNull { movieNetworkEntity ->
-                val movieDetail =
-                    networkDataSource.getMovieDetail(apiKey, movieNetworkEntity.id)
+            movies = temp
+                // filter adult movies out
+                .filter { movieNetworkEntity ->
+                    movieNetworkEntity.adult != null && !movieNetworkEntity.adult
+                }
+                // fetch movie details and map it to the domain model; Remove nulls
+                .mapNotNull { movieNetworkEntity ->
+                    val movieDetail =
+                        networkDataSource.getMovieDetail(apiKey, movieNetworkEntity.id)
 
-                when {
-                    movieDetail.status != DataState.Status.SUCCESS -> {
-                        // TODO: consider to return an error for the whole function
-                        //  -> return@execute movieDetail
-                        Timber.e(movieDetail.message)
-                        null
-                    }
-                    movieDetail.data == null -> {
-                        null
-                    }
-                    else -> {
-                        networkMapper.mapFromEntity(
-                            movieDetail.data,
-                            movieNetworkEntity.id,
-                            startDate,
-                            endDate
-                        )
+                    when (movieDetail) {
+                        is DataState.Error -> {
+                            // TODO: consider to return an error for the whole function
+                            //  -> return@execute movieDetail
+                            Timber.e(movieDetail.message)
+                            null
+                        }
+                        is DataState.Success -> {
+                            networkMapper.mapFromEntity(
+                                movieDetail.data,
+                                movieNetworkEntity.id,
+                                startDate,
+                                endDate
+                            )
+                        }
+                        else -> throw InvalidObjectException("Only success or error dataState can be here")
                     }
                 }
-            }
+        }
 
-        return DataState.success(movies.orEmpty())
+        return DataState.Success(movies)
     }
 
     private suspend fun executeSaveCallResult(movies: List<Movie>) {

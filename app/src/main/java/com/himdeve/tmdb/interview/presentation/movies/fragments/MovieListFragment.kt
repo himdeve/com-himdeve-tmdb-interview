@@ -68,15 +68,15 @@ class MovieListFragment : Fragment() {
         adapter: MovieListAdapter,
         binding: FragmentMovieListBinding
     ) {
-        viewModel.movies.observe(viewLifecycleOwner) {
-            when (it.status) {
-                DataState.Status.LOADING -> {
+        viewModel.movies.observe(viewLifecycleOwner) { dataState ->
+            when (dataState) {
+                is DataState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.movieNoItems.visibility = View.GONE
                 }
-                DataState.Status.SUCCESS -> {
+                is DataState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    it.data?.let { movies ->
+                    dataState.data.let { movies ->
                         adapter.submitList(movies)
 
                         if (movies.isEmpty()) {
@@ -86,19 +86,19 @@ class MovieListFragment : Fragment() {
                         }
                     }
                 }
-                DataState.Status.ERROR -> {
+                is DataState.Error -> {
                     if (adapter.itemCount == 0) {
                         // TODO: figure out a better way for screen rotation (Fragment)
-                        if (viewModel.memorySavedMovies.isNotEmpty()) {
+                        if (viewModel.inMemorySavedMovies.isNotEmpty()) {
                             // show saved movies
-                            adapter.submitList(viewModel.memorySavedMovies)
+                            adapter.submitList(viewModel.inMemorySavedMovies)
                         } else {
                             binding.movieNoItems.visibility = View.VISIBLE
                         }
                     }
 
                     binding.progressBar.visibility = View.GONE
-                    Snackbar.make(binding.root, it.message.toString(), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, dataState.message, Snackbar.LENGTH_LONG).show()
                 }
             }
         }

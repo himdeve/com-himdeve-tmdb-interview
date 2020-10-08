@@ -13,7 +13,7 @@ abstract class BaseRemoteDataSource {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) return DataState.success(body)
+                if (body != null) return DataState.Success(body)
             }
 
             // TODO: if message is empty, take error from response's error body!
@@ -26,6 +26,6 @@ abstract class BaseRemoteDataSource {
 
     private fun <T> error(message: String): DataState<T> {
         Timber.d(message)
-        return DataState.error(message)
+        return DataState.Error(message)
     }
 }

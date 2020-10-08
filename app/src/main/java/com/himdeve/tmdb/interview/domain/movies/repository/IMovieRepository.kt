@@ -10,7 +10,7 @@ import java.util.*
  * Created by Himdeve on 9/26/2020.
  */
 interface IMovieRepository {
-    suspend fun getMovies(
+    fun getMovies(
         apiKey: String = BuildConfig.API_KEY,
         startDate: Calendar? = null,
         endDate: Calendar? = null,

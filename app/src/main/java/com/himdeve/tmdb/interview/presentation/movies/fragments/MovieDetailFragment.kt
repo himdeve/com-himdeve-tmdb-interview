@@ -45,18 +45,18 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun subscribeUi(binding: FragmentMovieDetailBinding) {
-        viewModel.movieDetail.observe(viewLifecycleOwner) {
-            when (it.status) {
-                DataState.Status.LOADING ->
+        viewModel.movieDetail.observe(viewLifecycleOwner) { dateState ->
+            when (dateState) {
+                is DataState.Loading ->
                     binding.includedContentMovieDetail.progressBar.visibility = View.VISIBLE
-                DataState.Status.SUCCESS -> {
+                is DataState.Success -> {
                     binding.includedContentMovieDetail.progressBar.visibility = View.GONE
-                    it.data?.let { movie ->
+                    dateState.data.let { movie ->
                         binding.movie = movie
                     }
                 }
-                DataState.Status.ERROR ->
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                is DataState.Error ->
+                    Toast.makeText(requireContext(), dateState.message, Toast.LENGTH_LONG).show()
             }
         }
     }

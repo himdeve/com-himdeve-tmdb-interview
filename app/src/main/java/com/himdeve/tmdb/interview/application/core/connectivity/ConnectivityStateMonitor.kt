@@ -13,7 +13,7 @@ import androidx.lifecycle.MutableLiveData
  * Created by Himdeve on 10/1/2020.
  */
 
-// TODO: not finished! Dont user it yet
+// TODO: not finished! Don't use it yet
 
 class ConnectivityStateMonitor(private val context: Context) : NetworkCallback() {
     val connectedLiveData: LiveData<Boolean>
