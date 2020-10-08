@@ -18,6 +18,7 @@ abstract class BaseRepository {
     protected fun <T, A> execute(
         databaseQuery: suspend () -> ValueOrEmptyDataState<T>,
         networkCall: suspend () -> DataState<A>,
+        clearDatabaseTable: suspend () -> Unit,
         saveCallResult: suspend (A) -> Unit
     ): Flow<DataState<T>> =
         flow {
@@ -26,8 +27,13 @@ abstract class BaseRepository {
             // emit cached values first if there are some, otherwise keep loading
             emitLocalDataIfAny(databaseQuery)
 
+            emit(DataState.Loading())
+
             val responseStatus = networkCall.invoke()
             if (responseStatus is DataState.Success) {
+                // clear database data if desired
+                clearDatabaseTable.invoke()
+
                 // cache network data
                 saveCallResult(responseStatus.data!!)
 

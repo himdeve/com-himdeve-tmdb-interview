@@ -11,6 +11,7 @@ import com.himdeve.tmdb.interview.infrastructure.movies.cache.IMovieCacheDataSou
 import com.himdeve.tmdb.interview.infrastructure.movies.cache.model.MovieCacheEntity
 import com.himdeve.tmdb.interview.infrastructure.movies.network.IMovieNetworkDataSource
 import com.himdeve.tmdb.interview.infrastructure.movies.network.mappers.MovieNetworkMapper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import java.io.InvalidObjectException
@@ -19,6 +20,7 @@ import java.util.*
 /**
  * Created by Himdeve on 9/26/2020.
  */
+@ExperimentalCoroutinesApi
 class MovieRepository(
     private val cacheDataSource: IMovieCacheDataSource,
     private val networkDataSource: IMovieNetworkDataSource,
@@ -37,6 +39,9 @@ class MovieRepository(
         },
         networkCall = {
             executeNetworkCall(apiKey, startDate, endDate, page, pageSize)
+        },
+        clearDatabaseTable = {
+            cacheDataSource.clear()
         },
         saveCallResult = { movies ->
             executeSaveCallResult(movies)

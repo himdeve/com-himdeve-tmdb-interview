@@ -27,4 +27,8 @@ class MovieCacheDataSource(
     override suspend fun upsertMovie(movie: MovieCacheEntity) {
         movieDao.upsertMovie(movie)
     }
+
+    override suspend fun clear() {
+        movieDao.clearMovies()
+    }
 }

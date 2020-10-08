@@ -45,6 +45,11 @@ class MovieListFragment : Fragment() {
 
         subscribeUi(adapter, binding)
 
+        // load adapter with movies on screen rotation or just on recreation of fragment view
+        if (viewModel.inMemorySavedMovies.isNotEmpty()) {
+            adapter.submitList(viewModel.inMemorySavedMovies)
+        }
+
         return binding.root
     }
 
@@ -88,13 +93,7 @@ class MovieListFragment : Fragment() {
                 }
                 is DataState.Error -> {
                     if (adapter.itemCount == 0) {
-                        // TODO: figure out a better way for screen rotation (Fragment)
-                        if (viewModel.inMemorySavedMovies.isNotEmpty()) {
-                            // show saved movies
-                            adapter.submitList(viewModel.inMemorySavedMovies)
-                        } else {
-                            binding.movieNoItems.visibility = View.VISIBLE
-                        }
+                        binding.movieNoItems.visibility = View.VISIBLE
                     }
 
                     binding.progressBar.visibility = View.GONE

@@ -23,4 +23,6 @@ interface IMovieCacheDataSource {
     suspend fun upsertMovie(
         movie: MovieCacheEntity
     )
+
+    suspend fun clear()
 }

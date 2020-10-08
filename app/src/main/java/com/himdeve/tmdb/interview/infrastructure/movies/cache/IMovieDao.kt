@@ -28,4 +28,7 @@ interface IMovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertMovie(movie: MovieCacheEntity)
+
+    @Query("DELETE FROM movies")
+    suspend fun clearMovies()
 }
