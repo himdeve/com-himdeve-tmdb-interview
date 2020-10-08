@@ -17,6 +17,7 @@ import java.util.*
  * Type converters to allow Room to reference complex data types.
  */
 class Converters {
+    // TODO: use Hilt
     private val moshi = Moshi.Builder().build()
     private val membersType = Types.newParameterizedType(List::class.java, String::class.java)
     private val membersAdapter = moshi.adapter<List<String>>(membersType)

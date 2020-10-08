@@ -1,6 +1,8 @@
 package com.himdeve.tmdb.interview.infrastructure.core
 
 import com.himdeve.tmdb.interview.domain.core.DataState
+import com.himdeve.tmdb.interview.infrastructure.core.network.model.ResponseErrMsg
+import com.himdeve.tmdb.interview.infrastructure.util.ParsingUtil.parseErrJsonResponse
 import retrofit2.Response
 import timber.log.Timber
 
@@ -16,10 +18,14 @@ abstract class BaseRemoteDataSource {
                 if (body != null) return DataState.Success(body)
             }
 
-            // TODO: if message is empty, take error from response's error body!
-            return error("${response.code()}: ${response.message()}")
+            var errorMsg = response.message()
+            if (errorMsg.isEmpty()) {
+                errorMsg = response.parseErrJsonResponse<ResponseErrMsg>()?.errorMessage.orEmpty()
+            }
+
+            // TODO: consider to take an error code from error body if response.message() is empty
+            return error("${response.code()}: $errorMsg")
         } catch (e: Exception) {
-            e.printStackTrace()
             return error(e.message ?: e.toString())
         }
     }
