@@ -16,6 +16,8 @@ Android, Kotlin, Domain-driven-design (DDD), MVVM, Coroutines, Room, Retrofit, M
 
 Adding the Paging 3 library 
   (Actually now there is a problem with TMDb API for GET /movie/changes. Paging is currently not working)
+### TMDb's reply  
+https://www.themoviedb.org/talk/5f7ffae4c8113d0038ad6e8c
 
 ## Build
 1. In the Android Project update keystore.properties file to set your release information
