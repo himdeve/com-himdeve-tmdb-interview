@@ -1,7 +1,6 @@
 package com.himdeve.tmdb.interview.infrastructure.movies.repository
 
 import com.himdeve.tmdb.interview.domain.core.DataState
-import com.himdeve.tmdb.interview.domain.core.ValueOrEmptyDataState
 import com.himdeve.tmdb.interview.domain.movies.model.Movie
 import com.himdeve.tmdb.interview.domain.movies.repository.IMovieRepository
 import com.himdeve.tmdb.interview.domain.util.DateTimeUtil.toDateString
@@ -60,15 +59,9 @@ class MovieRepository(
     private suspend fun executeDatabaseQuery(
         startDate: Calendar?,
         endDate: Calendar?
-    ): ValueOrEmptyDataState<List<Movie>> {
+    ): List<Movie> {
         return cacheDataSource.getMovies(startDate, endDate).map { movieCacheEntity ->
             cacheMapper.mapFromEntity(movieCacheEntity)
-        }.let { movies ->
-            if (movies.isEmpty()) {
-                ValueOrEmptyDataState.EmptyDataState(emptyList())
-            } else {
-                ValueOrEmptyDataState.ValueDataState(movies)
-            }
         }
     }
 

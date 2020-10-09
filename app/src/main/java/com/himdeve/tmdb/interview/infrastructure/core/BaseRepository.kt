@@ -1,14 +1,11 @@
 package com.himdeve.tmdb.interview.infrastructure.core
 
 import com.himdeve.tmdb.interview.domain.core.DataState
-import com.himdeve.tmdb.interview.domain.core.ValueOrEmptyDataState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import okhttp3.Dispatcher
 
 /**
  * Created by Himdeve on 9/26/2020.
@@ -16,7 +13,7 @@ import okhttp3.Dispatcher
 @ExperimentalCoroutinesApi
 abstract class BaseRepository {
     protected fun <T, A> execute(
-        databaseQuery: suspend () -> ValueOrEmptyDataState<T>,
+        databaseQuery: suspend () -> T,
         networkCall: suspend () -> DataState<A>,
         clearDatabaseTable: suspend () -> Unit,
         saveCallResult: suspend (A) -> Unit
@@ -24,8 +21,8 @@ abstract class BaseRepository {
         flow {
             emit(DataState.Loading())
 
-            // emit cached values first if there are some, otherwise keep loading
-            emitLocalDataIfAny(databaseQuery)
+            // emit cached values first
+            emit(DataState.Success(databaseQuery.invoke()))
 
             emit(DataState.Loading())
 
@@ -38,7 +35,7 @@ abstract class BaseRepository {
                 saveCallResult(responseStatus.data!!)
 
                 // emit new cached values (DB as single source of truth)
-                emitLocalDataIfAny(databaseQuery, true)
+                emit(DataState.Success(databaseQuery.invoke()))
             } else if (responseStatus is DataState.Error) {
                 emit(DataState.Error(responseStatus.message))
             }
@@ -53,18 +50,4 @@ abstract class BaseRepository {
             // emit cached value
             emit(DataState.Success(databaseQuery.invoke()))
         }.flowOn(Dispatchers.IO)
-
-    private suspend fun <T> FlowCollector<DataState<T>>.emitLocalDataIfAny(
-        databaseQuery: suspend () -> ValueOrEmptyDataState<T>,
-        emitEmpty: Boolean = false
-    ) {
-        when (val cachedDataState = databaseQuery.invoke()) {
-            is ValueOrEmptyDataState.ValueDataState -> emit(DataState.Success(cachedDataState.data))
-            is ValueOrEmptyDataState.EmptyDataState -> {
-                if (emitEmpty) {
-                    emit(DataState.Success(cachedDataState.emptyData))
-                }
-            }
-        }
-    }
 }
